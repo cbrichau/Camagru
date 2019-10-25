@@ -1,0 +1,420 @@
+/* ************************** *\
+    DEFAULTS
+\* ************************** */
+
+:root
+{
+  --colour-bg-dark: rgb(1, 40, 120);
+  --colour-bg-light: rgb(220, 240, 255);
+  --colour-txt-dark: rgb(127, 127, 127);
+  --colour-txt-light: rgb(255, 255, 255);
+}
+
+*
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+html, body
+{
+  width: 100%;
+  height: 100%;
+  font: 15px/1.55 Arial, sans-serif;
+  color: var(--colour-txt-dark);
+}
+
+h1
+{
+  text-align: center;
+  color: var(--colour-bg-dark);
+}
+
+/* ************************** *\
+    NOTIFICATIONS
+\* ************************** */
+
+.alert-box {
+  color:#555555;
+  border-radius:10px;
+  padding:0.5em 1em 0.5em 2.5em;
+  margin:1em 0;
+  text-align: left;
+}
+
+.alert-box span {
+  font-weight:bold;
+  text-transform:uppercase;
+}
+
+.error {
+  background:#ffecec url('../images/layout/error.png') no-repeat 10px 50%;
+  border:1px solid #f5aca6;
+}
+.success {
+  background:#e9ffd9 url('../images/layout/success.png') no-repeat 10px 50%;
+  border:1px solid #a6ca8a;
+}
+.warning {
+  background:#fff8c4 url('../images/layout/warning.png') no-repeat 10px 50%;
+  border:1px solid #f2c779;
+}
+.notice {
+  background:#e3f7fc url('../images/layout/notice.png') no-repeat 10px 50%;
+  border:1px solid #8ed9f6;
+}
+
+/* ************************** *\
+    LAYOUT
+\* ************************** */
+
+body
+{
+  display: grid;
+    grid-template-areas: "header"  "nav"  "main"  "footer";
+    grid-template-rows:   auto      auto   1fr     auto;
+}
+
+/* ************************** *\
+    HEADER
+\* ************************** */
+
+header
+{
+  grid-area: header;
+  padding: 1em;
+  background-color: var(--colour-bg-dark);
+  color: var(--colour-txt-light);
+  display: grid;
+    grid-template-areas:   "sitename account";
+    grid-template-columns:  auto     auto;
+}
+
+header a:link,
+header a:visited,
+header a:hover,
+header a:active
+{
+  color: white;
+}
+
+header #sitename a
+{
+  grid-area: sitename;
+  justify-self: start;
+  font-size: 2em;
+  text-decoration: none;
+}
+
+header #account, header form
+{
+  grid-area: account;
+  justify-self: end;
+  text-align: left;
+
+}
+
+header form input
+{
+  padding: 0.4em 1em;
+  border-radius: 5px;
+  font-size: 0.85em;
+}
+
+/* ************************** *\
+    NAV
+\* ************************** */
+
+nav
+{
+  grid-area: nav;
+  border: 1px solid var(--colour-bg-dark);
+}
+
+nav a
+{
+  display: inline-block;
+  padding: 1em 1.5em;
+  border-right: 1px solid var(--colour-bg-dark);
+  text-decoration: none;
+}
+
+nav a:hover
+{
+  background-color: var(--colour-bg-light);
+}
+
+/* ************************** *\
+    MAIN
+\* ************************** */
+
+main
+{
+  grid-area: main;
+  padding: 1em;
+  background-color: var(--colour-bg-light);
+}
+
+/* ************************** *\
+    FOOTER
+\* ************************** */
+
+footer
+{
+  grid-area: footer;
+  padding: 1em;
+  background-color: var(--colour-bg-dark);
+}
+
+/* ************************** *\
+    Page: home
+\* ************************** */
+
+main#home .montage
+{
+  width: 95%;
+  padding: 1em;
+  border: 1px solid var(--colour-bg-dark);
+  border-radius: 5px;
+  background-color: white;
+}
+
+@media screen and (min-width: 300px)
+{
+  main#home .montage
+  {
+    width: 45%;
+    display: inline-block;
+    vertical-align: top;
+    margin: 1%;
+  }
+}
+@media screen and (min-width: 500px)
+{
+  main#home .montage
+  {
+    width: 30%;
+  }
+}
+
+main#home .montage img
+{
+  width: 100%;
+}
+
+main#home .montage form
+{
+  display: inline-block;
+}
+
+main#home .montage span:nth-of-type(2)
+{
+  float: right;
+}
+
+main#home #pagination
+{
+  text-align: center;
+}
+
+/* ************************** *\
+    Page: register, account
+\* ************************** */
+
+main#register form,
+main#account form
+{
+  width: 95%;
+  margin: 1em auto;
+  padding: 2em;
+  background-color: white;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+}
+
+@media screen and (min-width: 850px)
+{
+  main#register form,
+  main#account form{ width: 50%; }
+}
+
+main#register form input[type=text],
+main#register form input[type=email],
+main#register form input[type=password],
+main#register form input[type=submit],
+main#account form input[type=text],
+main#account form input[type=email],
+main#account form input[type=password],
+main#account form input[type=submit]
+{
+  display: block;
+  width: 100%;
+  margin: 1em 0;
+  padding: 1em;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+main#account form input[type=checkbox]
+{
+  display: inline;
+}
+
+main#register form input[type=submit],
+main#account form input[type=submit]
+{
+  background-color: var(--colour-bg-dark);
+  color: white;
+}
+
+/* ************************** *\
+    Page: montage
+\* ************************** */
+
+main#montage section#left,
+main#montage section#right
+{
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid var(--colour-bg-dark);
+  border-radius: 5px;
+  background-color: white;
+}
+
+section#left
+{
+  margin: 1%;
+  padding: 1em;
+  text-align: center;
+}
+
+section#right
+{
+  padding: 0 1em;
+}
+
+@media screen and (min-width: 500px)
+{
+  section#left
+  {
+    width: 74%;
+    float: left;
+  }
+  section#right
+  {
+    width: 24%;
+    float: right;
+  }
+}
+
+/* section#left */
+
+#filters img
+{
+  display: inline-block;
+  width: 100px;
+  margin: 1em;
+}
+
+#video, #canvas_photo, #photo
+{
+  display: none;
+}
+
+main#montage form input[type=hidden]
+{
+  display: none;
+}
+
+/* section#right */
+
+section#right img
+{
+  max-width: 100%;
+  display: block;
+  margin: 1em auto;
+}
+
+/* ************************** *\
+    Page: montage image
+\* ************************** */
+
+main#montage_image
+{
+  text-align: center;
+}
+
+main#montage_image #image,
+main#montage_image form
+{
+  max-width: 600px;
+  margin: 1em auto;
+  padding: 1em;
+  text-align: center;
+  border: 1px solid var(--colour-bg-dark);
+  border-radius: 5px;
+  background-color: white;
+}
+
+main#montage_image #image img
+{
+  display: block;
+  width: 100%;
+}
+
+main#montage_image form
+{
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+}
+
+main#montage_image form textarea
+{
+  display: block;
+  width: 100%;
+  height: 100px;
+  padding: 1em;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+main#montage_image form input[type=submit]
+{
+  margin: 1em auto 0 auto;
+  padding: 0.5em 2em;
+  background-color: var(--colour-bg-dark);
+  border-radius: 5px;
+  font-size: 1em;
+  color: white;
+}
+
+#comments div
+{
+  max-width: 600px;
+  padding: 0.9em 1em;
+  margin: 1em auto;
+  background-color: white;
+  border: 1px solid var(--colour-bg-dark);
+  border-radius: 5px;
+  text-align: left;
+}
+
+#comments div p:first-child
+{
+  margin-bottom: 1em;
+}
+
+#comments p span:nth-of-type(1)
+{
+  font-weight: bold;
+  margin-right: 1em;
+}
+
+#comments p span:nth-of-type(2)
+{
+  font-style: italic;
+  font-size: 0.9em;
+}
