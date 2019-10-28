@@ -1,9 +1,14 @@
 <?php
 class MEmailMng extends M_Manager
 {
+	/* *********************************************************** *\
+      SEND_EMAIL:
+      Sends the email given a destinator, subject and message.
+  \* *********************************************************** */
+
 	private function send_email($to, $subject, $message)
 	{
-		$from = 'cbrichau@alwaysdata.net';
+		$from = 'cbrichau@student.s19.be';
 
 		$headers = 'MIME-Version: 1.0'.'\r\n'.
 							 'Content-type:text/html;charset=UTF-8'.'\r\n'.
@@ -11,8 +16,16 @@ class MEmailMng extends M_Manager
 
 		$content = wordwrap($message, 70);
 
-		mail($to, $subject, $content, $headers);
+		if (mail($to, $subject, $content, $headers))
+		  echo "Message accepted";
+		else
+		  echo "Error: Message not accepted";
 	}
+
+	/* *********************************************************** *\
+      SEND_REGISTRATION_CONFIRMATION, NOTIFY_NEW_COMMENT:
+			Define the emails to send in both cases.
+  \* *********************************************************** */
 
 	public function send_registration_confirmation(MUser $user)
 	{

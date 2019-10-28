@@ -12,7 +12,7 @@
   var canvas_photo = document.getElementById('canvas_photo');
   var context_photo = canvas_photo.getContext('2d');
 
-  var filters = document.getElementById('filters');
+  var filters = document.querySelectorAll('#filters img');
   var active_filter = new Image();
 
   var form = document.getElementById('form');
@@ -81,17 +81,21 @@
     false
   );
 
-  // When an image under filters is clicked, sets it as the active filter.
-  filters.addEventListener(
-    'click',
-    function(event)
-    {
-      // ==========> make button visible (hidden by default)
-      active_filter.src = event.target.src;
-      form.elements['filter'].value = event.target.src;
-    },
-    false
-  );
+  // When an image under filters is clicked, sets it as the active filter
+  // and enables the "Take photo" button
+  for (var i = 0; i < filters.length; i++)
+  {
+   filters[i].addEventListener(
+     'click',
+     function(event)
+     {
+       active_filter.src = event.target.src;
+       form.elements['filter'].value = event.target.src;
+       form.elements['button'].removeAttribute('disabled');
+     },
+     false
+   );
+  }
 
   // When form is submitted (i.e. user clicked "Take photo"),
   // sets the photo to a snapshot of the video.

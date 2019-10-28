@@ -2,80 +2,59 @@
 class MUserMng extends M_Manager
 {
   /* *********************************************************** *\
-      SELECT, ADD, MODIFY, DELETE
+      SELECT, ADD, MODIFY
   \* *********************************************************** */
 
   public function select_user_by($key, $value)
   {
-    try
+    if (in_array($key, array('id_user', 'email', 'username')) && isset($value))
     {
-      if (!in_array($key, array('id_user', 'email', 'username')) ||
-          !isset($value))
-        throw new Exception('Missing or wrong parameter for SELECT.');
-
       $sql = 'SELECT *
               FROM users
               WHERE '.$key.' = :value';
       $query = $this->_db->prepare($sql);
       $query->bindValue(':value', $value);
       $query->execute();
+
       $r = $query->fetch();
       if (isset($r['id_user']))
         return new MUser($r);
-      return NULL;
     }
-    catch (PDOException $e)
-    {
-      $error_msg = $e->getMessage();
-      //show error page
-    }
-    catch (Exception $e)
-    {
-      $error_msg = $e->getMessage();
-      //show error page
-    }
+    return NULL;
   }
 
   public function add_user(MUser $user)
   {
-    try
-    {
-      $sql = 'INSERT INTO users
-             (email, username, password, notifications_on, email_confirmed)
-             VALUES
-             (:email, :username, :password, 1, :email_confirmed)';
-      $query = $this->_db->prepare($sql);
-      $query->bindValue(':email', $user->get_email(), PDO::PARAM_STR);
-      $query->bindValue(':username', $user->get_username(), PDO::PARAM_STR);
-      $query->bindValue(':password', $user->get_password(), PDO::PARAM_STR);
-      $query->bindValue(':email_confirmed', $user->get_email_confirmed(), PDO::PARAM_STR);
-      $query->execute();
-      return $this->_db->lastInsertId();
-    }
-    catch (PDOException $e){ die('DB error: '.$e->getMessage()); }
+    $sql = 'INSERT INTO users
+           (email, username, password, notifications_on, email_confirmed)
+           VALUES
+           (:email, :username, :password, 1, :email_confirmed)';
+    $query = $this->_db->prepare($sql);
+    $query->bindValue(':email', $user->get_email(), PDO::PARAM_STR);
+    $query->bindValue(':username', $user->get_username(), PDO::PARAM_STR);
+    $query->bindValue(':password', $user->get_password(), PDO::PARAM_STR);
+    $query->bindValue(':email_confirmed', $user->get_email_confirmed(), PDO::PARAM_STR);
+    $query->execute();
+    return $this->_db->lastInsertId();
   }
 
   public function modify_user(MUser $user)
   {
-    try
-    {
-      $sql = 'UPDATE users
-              SET email = :email,
-                  username = :username,
-                  password = :password,
-                  notifications_on = :notifications_on,
-                  email_confirmed = :email_confirmed
-              WHERE id_user = :id_user';
-      $query = $this->_db->prepare($sql);
-      $query->bindValue(':email', $user->get_email(), PDO::PARAM_STR);
-      $query->bindValue(':username', $user->get_username(), PDO::PARAM_STR);
-      $query->bindValue(':password', $user->get_password(), PDO::PARAM_STR);
-      $query->bindValue(':notifications_on', $user->get_notifications_on(), PDO::PARAM_INT);
-      $query->bindValue(':email_confirmed', $user->get_email_confirmed(), PDO::PARAM_STR);
-      $query->bindValue(':id_user', $user->get_id_user(), PDO::PARAM_INT);
-      $query->execute();
-    }
-    catch (PDOException $e){ die('DB error: '.$e->getMessage()); }
+    $sql = 'UPDATE users
+            SET email = :email,
+                username = :username,
+                password = :password,
+                notifications_on = :notifications_on,
+                email_confirmed = :email_confirmed
+            WHERE id_user = :id_user';
+    $query = $this->_db->prepare($sql);
+    $query->bindValue(':email', $user->get_email(), PDO::PARAM_STR);
+    $query->bindValue(':username', $user->get_username(), PDO::PARAM_STR);
+    $query->bindValue(':password', $user->get_password(), PDO::PARAM_STR);
+    $query->bindValue(':notifications_on', $user->get_notifications_on(), PDO::PARAM_INT);
+    $query->bindValue(':email_confirmed', $user->get_email_confirmed(), PDO::PARAM_STR);
+    $query->bindValue(':id_user', $user->get_id_user(), PDO::PARAM_INT);
+    $query->execute();
   }
 
   /* *********************************************************** *\
@@ -182,6 +161,15 @@ class MUserMng extends M_Manager
 
     $user = $this->select_user_by('username', $post['username']);
     if (is_null($user))
+      return 'error';
+
+    return FALSE;
+  }
+
+  public function check_login_email_confirmed(array $post)
+  {
+    $user = $this->select_user_by('username', $post['username']);
+    if ($user->get_email_confirmed() != 1)
       return 'error';
 
     return FALSE;

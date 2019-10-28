@@ -1,11 +1,11 @@
 <?php
 class Output extends Config
 {
-  private $_head_title;
-/*
-  private $_login_username;
-  private $_login_error_msg;
-  private $_page_name;*/
+  private $_head_title; // = <head><title> field.
+  private $_page_name; // = <main id="name"> for page-specific css.
+
+  //private $_login_username;
+  //private $_login_error_msg;
 
   /* **************************** *\
     SETTERS
@@ -17,6 +17,10 @@ class Output extends Config
       $this->_head_title = $title;
   }
 
+  public function set_page_name($name)
+  {
+    $this->_page_name = $name;
+  }
   /*
   public function set_login_username($username)
   {
@@ -29,11 +33,6 @@ class Output extends Config
     $this->_login_error_msg = 'Wrong username and/or password.';
   }
 
-  public function set_page_name($name)
-  {
-    $this->_page_name = $name;
-  }*/
-
   /* **************************** *\
     GETTERS
   \* **************************** */
@@ -43,7 +42,13 @@ class Output extends Config
     return $this->_head_title;
   }
 
+  public function get_page_name()
+  {
+    return $this->_page_name;
+  }
 /*
+
+
   public function get_login_username()
   {
     return $this->_login_username;
@@ -52,10 +57,5 @@ class Output extends Config
   public function get_login_error_msg()
   {
     return $this->_login_error_msg;
-  }
-
-  public function get_page_name()
-  {
-    return $this->_page_name;
   }*/
 }

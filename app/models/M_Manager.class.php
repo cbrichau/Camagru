@@ -33,6 +33,14 @@ class M_Manager extends Config
     return TRUE;
   }
 
+  protected function is_valid_float_format($input)
+  {
+    if ($input != filter_var($input, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) ||
+        $input != filter_var($input, FILTER_VALIDATE_FLOAT))
+      return FALSE;
+    return TRUE;
+  }
+
   protected function is_valid_email_format($input)
   {
     if ($input != filter_var($input, FILTER_SANITIZE_EMAIL) ||

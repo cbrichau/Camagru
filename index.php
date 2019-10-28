@@ -8,8 +8,6 @@ if (!isset($_SESSION['is_logged']))
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-/**/
-
 /*
 echo '<pre>';
 print_r($_POST);
@@ -24,7 +22,6 @@ print_r($_SESSION);
 echo '</pre>';
 */
 
-
 // Config class defines all paths as constants
 // and establishes the connection to the database.
 require_once('app/core/Config.class.php');
@@ -35,7 +32,16 @@ require_once('app/core/Output.class.php');
 $output = new Output();
 
 // Error file manages any errors to be displayed
-require_once('app/core/Error.php');
+/*
+if (isset($_SESSION['error']))
+{
+  if (isset($_SESSION['error']['login']))
+  {
+    $output->set_login_error();
+    unset($_SESSION['error']['login']);
+  }
+}
+*/
 
 // Router class takes the GET and POST arrays,
 // and includes the expected models and controller.

@@ -17,6 +17,8 @@ if (isset($_POST['login']))
   $userMng = new MUserMng();
   $error_msg = $userMng->check_login_username($_POST);
   if ($error_msg === FALSE)
+    $error_msg = $userMng->check_login_email_confirmed($_POST);
+  if ($error_msg === FALSE)
     $error_msg = $userMng->check_login_password($_POST);
 
   // If the input is valid (i.e. no error), logs the user.

@@ -18,10 +18,11 @@ if ($image_path === FALSE)
 else
 {
 	// Processes the removal of a previous montage.
-	if (isset($_POST['remove']))
+	if (isset($_GET['remove']))
 	{
-		//if user is author
-		//unlink($image_path);
+    list($timestamp, $id_user_image) = explode('-', Router::$page['id_image']);
+    if ($id_user_image == $_SESSION['id_user'])
+      $imageMng->delete_montage(Router::$page['id_image']);
 	}
 
 	// Processes the posting of a new comment.
@@ -48,7 +49,6 @@ else
 
 // Sets the output values and calls the views.
 $output->set_head_title('Montage n°'.Router::$page['id_image']);
-$id_user = (int)$_SESSION['id_user'];
 
 require_once(Config::VIEW_HEADER);
 require_once(Router::$page['view']);

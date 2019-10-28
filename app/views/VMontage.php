@@ -9,20 +9,43 @@
   </div>
 
   <?php
-  if ($montage_error_alert === TRUE)
-  	echo '<div class="alert-box error"><span>error:</span> Bad or missing form input.</div>';
+  if ($montage_error === TRUE || $upload_error === TRUE)
+  {
+    echo '
+    <div class="alert-box error"><span>error:</span>
+      Bad or missing input.
+    </div>';
+  }
+  else
+  {
+    if (isset($uploaded_image))
+    {
+      $js_file = 'create_montage_photo.js';
+      echo '<img src="'.$uploaded_image.'" id="photo">';
+    }
+    else
+    {
+      $js_file = 'create_montage_video.js';
+      echo '<video id="video" autoplay></video>
+            <canvas id="canvas_preview"></canvas>
+            <canvas id="canvas_photo"></canvas>';
+    }
+    ?>
+    <form id="form" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="photo">
+      <input type="hidden" name="filter">
+      <input type="hidden" name="width">
+      <input type="hidden" name="height">
+      <input type="hidden" name="montage">
+      <input type="submit" name="button" value="Take photo" disabled>
+    </form>
+
+    <form method="POST" enctype="multipart/form-data">
+      Or <input type="file" name="photo"> <input type="submit" value="Upload photo">
+    </form>
+    <?php
+  }
   ?>
-  <video id="video" autoplay></video>
-  <canvas id="canvas_preview"></canvas>
-  <canvas id="canvas_photo"></canvas>
-  <form id="form" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="photo">
-    <input type="hidden" name="filter">
-    <input type="hidden" name="width">
-    <input type="hidden" name="height">
-    <input type="hidden" name="montage">
-    <input type="submit" value="Take photo">
-  </form>
 </section>
 
 <section id="right">
@@ -31,9 +54,9 @@
     echo '
     <p>
       <img src="'.Config::ROOT.$path.'"/>
-      <a href="'.Config::ROOT.'montage/'.basename($path, ".png").'?remove">Delete</a>
+      <a href="'.Config::ROOT.'index.php?cat=montage&id_image='.basename($path, ".png").'&remove">Delete</a>
     </p>';
   ?>
 </section>
 
-<script type="text/javascript" src="<?php echo Config::JS_PATH; ?>create_montage.js"></script>
+<script type="text/javascript" src="<?php echo Config::JS_PATH.$js_file.'?time='.time(); ?>"></script>

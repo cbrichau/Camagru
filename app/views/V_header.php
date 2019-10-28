@@ -11,15 +11,15 @@
 <body>
 
 <header>
-  <p id="sitename"><a href="<?php echo Config::ROOT; ?>">My 19 Purikura</a></p>
+  <p id="sitename"><a href="<?php echo Config::ROOT.'index.php?cat=home'; ?>">My 19 Purikura</a></p>
   <?php
   if ($_SESSION['is_logged'] === TRUE)
   {
     ?>
     <p id="account">
       Welcome <?php echo $_SESSION['username']; ?>
-      <a href="<?php echo Config::ROOT.'account'; ?>">My account</a>
-      <a href="<?php echo Config::ROOT.'?logout'; ?>">Logout</a>
+      <a href="<?php echo Config::ROOT.'index.php?cat=account'; ?>">My account</a>
+      <a href="<?php echo Config::ROOT.'index.php?logout'; ?>">Logout</a>
     </p>
     <?php
   }
@@ -27,12 +27,12 @@
   {
     ?>
     <form method="POST">
-      <input type="text" name="username" placeholder="username" value="<?php echo $output->get_login_username(); ?>">
+      <input type="text" name="username" placeholder="username" value="<?php //echo $output->get_login_username(); ?>">
       <input type="password" name="pass" placeholder="password" value="">
       <input type="submit" name="login" value="Login">
       <p>
-        <?php echo $output->get_login_error_msg(); ?>
-        <a href="<?php echo Config::ROOT.'register'; ?>">Register</a>
+        <?php //echo $output->get_login_error_msg(); ?>
+        <a href="<?php echo Config::ROOT.'index.php?cat=register'; ?>">Register</a>
       </p>
     </form>
     <?php
@@ -41,7 +41,7 @@
 </header>
 
 <nav>
-  <a href="<?php echo Config::ROOT; ?>">Gallery</a><a href="<?php echo Config::ROOT.'montage'; ?>">Create montage</a>
+  <a href="<?php echo Config::ROOT; ?>">Gallery</a><a href="<?php echo Config::ROOT.'index.php?cat=montage'; ?>">Create montage</a>
 </nav>
 
 <main id="<?php echo $output->get_page_name(); ?>">

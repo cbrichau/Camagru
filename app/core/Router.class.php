@@ -2,7 +2,7 @@
 class Router extends Config
 {
   public static $page = array('name' => 'home',
-                              'path' => '',
+                              'path' => 'index.php?cat=home',
                               'controller' => 'CHome.php',
                               'view' => 'VHome.php',
                               'action' => '',
@@ -15,26 +15,30 @@ class Router extends Config
 
   private static function define_page_elements($GET_array, $POST_array)
   {
+    // Sanitizes the url input.
     $url_params = filter_var_array($GET_array, FILTER_SANITIZE_URL);
 
-    // Set the id and the files of the expected page (default is Home).
+    // Sets the elements/files of the expected page (default is Home).
     if (isset($url_params['cat']))
     {
-      self::$page['name'] = strtolower($url_params['cat']);
-      self::$page['path'] = self::$page['name'];
-      self::$page['controller'] = 'C'.ucfirst(self::$page['name']).'.php';
-      self::$page['view'] = 'V'.ucfirst(self::$page['name']).'.php';
-
       if (isset($url_params['id_image']))
       {
-        self::$page['name'] = 'montage_image';
         self::$page['id_image'] = $url_params['id_image'];
-        self::$page['path'] = strtolower($url_params['cat']).'/'.$url_params['id_image'];
+        self::$page['name'] = 'montage_image';
+        self::$page['path'] = 'index.php?cat='.strtolower($url_params['cat']).'&id_image='.self::$page['id_image'];
         self::$page['controller'] = 'CMontageImage.php';
         self::$page['view'] = 'VMontageImage.php';
       }
+      else
+      {
+        self::$page['name'] = strtolower($url_params['cat']);
+        self::$page['path'] = 'index.php?cat='.self::$page['name'];
+        self::$page['controller'] = 'C'.ucfirst(self::$page['name']).'.php';
+        self::$page['view'] = 'V'.ucfirst(self::$page['name']).'.php';
+      }
     }
 
+    // Overrides the controller with login/logout for those actions.
     if (isset($POST_array['login']))
     {
       self::$page['action'] == 'login';
@@ -46,7 +50,7 @@ class Router extends Config
       self::$page['controller'] = 'CLogout.php';
     }
 
-    // Set the proper paths for the page's files.
+    // Sets the proper full paths for the page's url and files.
     self::$page['path'] = Config::ROOT.self::$page['path'];
     self::$page['controller'] = Config::CONTROLLERS_PATH.self::$page['controller'];
     self::$page['view'] = Config::VIEWS_PATH.self::$page['view'];

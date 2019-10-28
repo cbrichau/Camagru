@@ -2,71 +2,58 @@
 class MCommentMng extends M_Manager
 {
   /* *********************************************************** *\
-      SELECT, ADD, MODIFY, DELETE
+      SELECT, ADD, COUNT
   \* *********************************************************** */
-
-  public function count_comments_per_image()
-  {
-    try
-    {
-      $comments = array();
-
-      $sql = 'SELECT id_image, COUNT(*) as nb_comments
-              FROM comments
-              GROUP BY id_image';
-      $query = $this->_db->prepare($sql);
-      $query->execute();
-      while ($r = $query->fetch())
-        $comments[$r['id_image']] = $r['nb_comments'];
-      return $comments;
-    }
-    catch (PDOException $e){ die('DB error: '.$e->getMessage()); }
-  }
 
   public function select_comments_for_image($id_image)
   {
-    try
-    {
-    	$comments = array();
+    $sql = 'SELECT publication_date, comment, username
+            FROM comments
+            JOIN users USING(id_user)
+            WHERE id_image = :id_image
+            ORDER BY publication_date DESC';
+    $query = $this->_db->prepare($sql);
+    $query->bindValue(':id_image', $id_image, PDO::PARAM_INT);
+    $query->execute();
 
-      $sql = 'SELECT publication_date, comment, username
-              FROM comments
-              JOIN users USING(id_user)
-              WHERE id_image = :id_image
-              ORDER BY publication_date DESC';
-      $query = $this->_db->prepare($sql);
-      $query->bindValue(':id_image', $id_image, PDO::PARAM_INT);
-      $query->execute();
-      while ($r = $query->fetch())
-      {
-        $r['publication_date'] = date('l jS \of F Y \a\t H:i', strtotime($r['publication_date']));
-      	$comments[] = new MComment($r);
-      }
-      return $comments;
+    $comments = array();
+    while ($r = $query->fetch())
+    {
+      $r['publication_date'] = date('l jS \of F Y \a\t H:i', strtotime($r['publication_date']));
+    	$comments[] = new MComment($r);
     }
-    catch (PDOException $e){ die('DB error: '.$e->getMessage()); }
+    return $comments;
   }
 
 	public function add_comment(MComment $comment)
   {
-    try
-    {
-      $sql = 'INSERT INTO comments
-             (id_image, id_user, publication_date, comment)
-             VALUES
-             (:id_image, :id_user, now(), :comment)';
-      $query = $this->_db->prepare($sql);
-      $query->bindValue(':id_image', $comment->get_id_image(), PDO::PARAM_STR);
-      $query->bindValue(':id_user', $comment->get_id_user(), PDO::PARAM_INT);
-      $query->bindValue(':comment', $comment->get_comment(), PDO::PARAM_STR);
-      $query->execute();
+    $sql = 'INSERT INTO comments
+           (id_image, id_user, publication_date, comment)
+           VALUES
+           (:id_image, :id_user, now(), :comment)';
+    $query = $this->_db->prepare($sql);
+    $query->bindValue(':id_image', $comment->get_id_image(), PDO::PARAM_STR);
+    $query->bindValue(':id_user', $comment->get_id_user(), PDO::PARAM_INT);
+    $query->bindValue(':comment', $comment->get_comment(), PDO::PARAM_STR);
+    $query->execute();
 
-      $emailMng = new MEmailMng();
-      $emailMng->notify_new_comment($comment->get_id_image());
+    $emailMng = new MEmailMng();
+    $emailMng->notify_new_comment($comment->get_id_image());
+    return $this->_db->lastInsertId();
+  }
 
-      return $this->_db->lastInsertId();
-    }
-    catch (PDOException $e){ die('DB error: '.$e->getMessage()); }
+  public function count_comments_per_image()
+  {
+    $sql = 'SELECT id_image, COUNT(*) as nb_comments
+            FROM comments
+            GROUP BY id_image';
+    $query = $this->_db->prepare($sql);
+    $query->execute();
+
+    $comments = array();
+    while ($r = $query->fetch())
+      $comments[$r['id_image']] = $r['nb_comments'];
+    return $comments;
   }
 
   /* *********************************************************** *\

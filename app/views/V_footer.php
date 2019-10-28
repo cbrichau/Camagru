@@ -1,7 +1,7 @@
 </main>
 
 <footer>
-  <p>&copy cbrichau 2019.</p>
+  <p>Camagru 42/19 Coding School &copy cbrichau 2019.</p>
 </footer>
 
 </body>

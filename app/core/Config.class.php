@@ -1,7 +1,12 @@
 <?php
 class Config
 {
-  const ROOT = 'http://cbrichau.alwaysdata.net/camagru/';
+  /* ******************************************************************* *\
+      Sets the file & html base paths,
+      and the connection to the database.
+  \* ******************************************************************* */
+
+  const ROOT = 'http://localhost:8081/repcamagru/';
 
   const MODELS_PATH = 'app/models/';
   const CONTROLLERS_PATH = 'app/controllers/';
@@ -16,24 +21,12 @@ class Config
 
   private static $_db;
 
-  /* ******************************************************************* *\
-      CONNECT_BDD:  Creates the connection to the DB
-      GET_DB:  Gets the connection to the db (first connects if not done).
-  \* ******************************************************************* */
-
   private static function connect_db()
   {
-		try
-		{
-      $db_host = 'localhost';
-      $db_name = 'cbrichau_camagru';
-      $db_user = 'root';
-      $db_pass = 'password';
-			self::$_db = new PDO('mysql:host='.$db_host.';dbname='.$db_name.'', $db_user, $db_pass); // Connect
-      self::$_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Error mode = throw PDOException.
-			self::$_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); //Defaut fetch = associative array.
-		}
-		catch (PDOException $e){ die('DB error: '.$e->getMessage()); }
+    require('config/database.php');
+		self::$_db = new PDO($DB_DSN.';dbname='.$DB_NAME, $DB_USER, $DB_PASSWORD); // Connect
+    self::$_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Error mode = throw PDOException.
+		self::$_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); //Defaut fetch = associative array.
   }
 
   public static function get_db()
