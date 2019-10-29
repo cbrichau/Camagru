@@ -1,4 +1,13 @@
 <?php
+/* ************************************************************** *\
+    Manages image files (no matching object).
+    - SELECT, DELETE: gets/removes files.
+    - PAGINATION: defines gallery pagination.
+    - LIKES: manages likes.
+    - CREATE_MONTAGE: creates a new montage.
+    - CHECK_MONTAGE_values: checkers for posted montages.
+\* ************************************************************** */
+
 class MImageMng extends M_Manager
 {
   /* *********************************************************** *\
@@ -70,43 +79,31 @@ class MImageMng extends M_Manager
 
   /* *********************************************************** *\
       LIKES
-      - Counts the likes for a given image.
-      - Adds a like to a given image.
-      - Initialises the likes to zero on creation of a new image.
+      Selects/Counts/Adds likes for a given image.
   \* *********************************************************** */
 
-  public function count_likes_per_image()
+  public function select_likes_per_image()
   {
-    $sql = 'SELECT id_image, SUM(nb_likes) as nb_likes
-            FROM likes
-            GROUP BY id_image';
+    $sql = 'SELECT id_image, id_user
+            FROM likes';
     $query = $this->_db->prepare($sql);
     $query->execute();
 
     $likes = array();
     while ($r = $query->fetch())
-      $likes[$r['id_image']] = $r['nb_likes'];
+      $likes[$r['id_image']][] = $r['id_user'];
     return $likes;
   }
 
-  public function add_like($id_image)
-  {
-    $sql = 'UPDATE likes
-            SET nb_likes = nb_likes + 1
-            WHERE id_image = :id_image';
-    $query = $this->_db->prepare($sql);
-    $query->bindValue(':id_image', $id_image, PDO::PARAM_STR);
-    $query->execute();
-  }
-
-  private function initialise_likes($id_image)
+  public function add_like($id_image, $id_user)
   {
     $sql = 'INSERT INTO likes
-           (id_image, nb_likes)
-           VALUES
-           (:id_image, 0)';
+            (id_image, id_user)
+            VALUES
+            (:id_image, :id_user)';
     $query = $this->_db->prepare($sql);
     $query->bindValue(':id_image', $id_image, PDO::PARAM_STR);
+    $query->bindValue(':id_user', $id_user, PDO::PARAM_INT);
     $query->execute();
   }
 
@@ -129,7 +126,6 @@ class MImageMng extends M_Manager
 
     $id_image = time().'-'.$id_user;
     imagepng($photo, Config::IMAGES_PATH.'montages/'.$id_image.'.png');
-    $this->initialise_likes($id_image);
 
     imagedestroy($photo);
     imagedestroy($filter);
@@ -172,6 +168,10 @@ class MImageMng extends M_Manager
   public function save_uploaded_photo(array $files, $id_user)
   {
     $photo = imagecreatefromstring(file_get_contents($files['photo']['tmp_name']));
+    list($width) = getimagesize($files['photo']['tmp_name']);
+    if ($width > 900)
+      $photo = imagescale($photo, 900);
+
     $id_image = time().'-'.$id_user;
     $img_path = Config::IMAGES_PATH.'uploads/'.$id_image.'.png';
     imagepng($photo, $img_path);

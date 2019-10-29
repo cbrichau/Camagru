@@ -13,17 +13,14 @@ if (isset($_POST['login']))
 {
   // Checks the input is valid, or returns an error message.
   $userMng = new MUserMng();
-  $error_msg = $userMng->check_login_username($_POST);
-  if ($error_msg === FALSE)
-    $error_msg = $userMng->check_login_email_confirmed($_POST);
-  if ($error_msg === FALSE)
-    $error_msg = $userMng->check_login_password($_POST);
+  $error_msg = $userMng->check_login_username($_POST) ||
+               $userMng->check_login_email_confirmed($_POST) ||
+               $userMng->check_login_password($_POST);
 
   // If the input is valid (i.e. no error), logs the user.
+  // Otherwise the error is outputted.
   if ($error_msg === FALSE)
     $userMng->login($_POST['username']);
-
-  // If there's an error, ..........
   else
   {
     $output->set_login_username($_POST['username']);

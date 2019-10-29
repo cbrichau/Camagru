@@ -1,9 +1,18 @@
 <?php
+/* ************************************************************** *\
+    Manages User objects.
+    - SELECT, ADD, MODIFY, DELETE: database manipulations.
+    - REGISTER, LOGIN, LOGOUT, RESET_PASSWORD: user connections.
+    - CHECK_context_values: checkers for posted data.
+\* ************************************************************** */
+
 class MUserMng extends M_Manager
 {
   /* *********************************************************** *\
-      SELECT, ADD, MODIFY
+      SELECT, ADD, MODIFY, DELETE
   \* *********************************************************** */
+
+  /* --- 'users' table ---*/
 
   public function select_user_by($key, $value)
   {
@@ -37,6 +46,27 @@ class MUserMng extends M_Manager
     $query->execute();
     return $this->_db->lastInsertId();
   }
+
+  public function modify_user(MUser $user)
+  {
+    $sql = 'UPDATE users
+            SET email = :email,
+                username = :username,
+                password = :password,
+                notifications_on = :notifications_on,
+                email_confirmed = :email_confirmed
+            WHERE id_user = :id_user';
+    $query = $this->_db->prepare($sql);
+    $query->bindValue(':email', $user->get_email(), PDO::PARAM_STR);
+    $query->bindValue(':username', $user->get_username(), PDO::PARAM_STR);
+    $query->bindValue(':password', $user->get_password(), PDO::PARAM_STR);
+    $query->bindValue(':notifications_on', $user->get_notifications_on(), PDO::PARAM_INT);
+    $query->bindValue(':email_confirmed', $user->get_email_confirmed(), PDO::PARAM_STR);
+    $query->bindValue(':id_user', $user->get_id_user(), PDO::PARAM_INT);
+    $query->execute();
+  }
+
+  /* --- 'password_resets' table ---*/
 
   public function select_password_reset_data($id_user)
   {
@@ -78,25 +108,6 @@ class MUserMng extends M_Manager
     $sql = 'DELETE FROM password_resets
             WHERE id_user = :id_user';
     $query = $this->_db->prepare($sql);
-    $query->bindValue(':id_user', $user->get_id_user(), PDO::PARAM_INT);
-    $query->execute();
-  }
-
-  public function modify_user(MUser $user)
-  {
-    $sql = 'UPDATE users
-            SET email = :email,
-                username = :username,
-                password = :password,
-                notifications_on = :notifications_on,
-                email_confirmed = :email_confirmed
-            WHERE id_user = :id_user';
-    $query = $this->_db->prepare($sql);
-    $query->bindValue(':email', $user->get_email(), PDO::PARAM_STR);
-    $query->bindValue(':username', $user->get_username(), PDO::PARAM_STR);
-    $query->bindValue(':password', $user->get_password(), PDO::PARAM_STR);
-    $query->bindValue(':notifications_on', $user->get_notifications_on(), PDO::PARAM_INT);
-    $query->bindValue(':email_confirmed', $user->get_email_confirmed(), PDO::PARAM_STR);
     $query->bindValue(':id_user', $user->get_id_user(), PDO::PARAM_INT);
     $query->execute();
   }

@@ -29,8 +29,9 @@ $create_pw_resets_table = 'CREATE TABLE IF NOT EXISTS password_resets
 
 $create_likes_table = 'CREATE TABLE IF NOT EXISTS likes
                        (id_image varchar(15) NOT NULL,
-                        nb_likes int(11) NOT NULL,
-                        PRIMARY KEY (id_image)
+                        id_user int(11) NOT NULL,
+                        PRIMARY KEY (id_image, id_user),
+                        CONSTRAINT FK_likes_id_user FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE ON UPDATE CASCADE,
                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;';
 
 $create_comments_table = 'CREATE TABLE IF NOT EXISTS comments

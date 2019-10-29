@@ -1,4 +1,17 @@
 <?php
+/* ******************************************************** *\
+    Defines a User as:
+    - id_user: unique identifier.
+    - email: email address.
+    - username: name.
+    - password: password (encrypted or not).
+    - notifications_on: whether the user gets notified of
+      comments on his/her images (1) or not (0).
+    - email_confirmed: whether the user has confirmed his/her
+      email after registration (1) or contains the
+      validation code.
+\* ******************************************************** */
+
 class MUser
 {
   private $_id_user;
@@ -67,14 +80,6 @@ class MUser
     $this->_email_confirmed = $arg;
   }
 
-  /* -- */
-
-  public function encrypt_and_set_password($pw)
-  {
-    $encrypted_pw = hash('whirlpool', $pw);
-    $this->set_password($encrypted_pw);
-  }
-
   /* ******************************************************** *\
       GETTERS
   \* ******************************************************** */
@@ -107,5 +112,15 @@ class MUser
   public function get_email_confirmed()
   {
     return $this->_email_confirmed;
+  }
+
+  /* ******************************************************** *\
+      CUSTOM FUNCTIONS
+  \* ******************************************************** */
+
+  public function encrypt_and_set_password($pw)
+  {
+    $encrypted_pw = hash('whirlpool', $pw);
+    $this->set_password($encrypted_pw);
   }
 }

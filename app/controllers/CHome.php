@@ -17,14 +17,15 @@ $like_error_alert = FALSE;
 if (isset($_POST['like']))
 {
 	if ($_SESSION['is_logged'] === TRUE)
-		$imageMng->add_like($_POST['id_image']);
+		$imageMng->add_like($_POST['id_image'], $_SESSION['id_user']);
 	else
 		$like_error_alert = TRUE;
 }
 
-// Gets the number of likes and comments per image
-// as an array(id_image => value).
-$likes = $imageMng->count_likes_per_image();
+// Gets the likes and comments per image
+// as an array(id_image => array(id_users))
+// and array(id_image => nb_comments).
+$likes = $imageMng->select_likes_per_image();
 $commmentMng = new MCommentMng();
 $comments = $commmentMng->count_comments_per_image();
 

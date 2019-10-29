@@ -3,8 +3,8 @@
 {
   // Defining HTML elements
   var photo = document.getElementById('photo');
-  var width = photo.width;
-  var height = photo.height;
+  var width = document.getElementById('left').clientWidth * 0.9;
+  var height = photo.height / (photo.width/width);
 
   var canvas_preview = document.getElementById('canvas_preview');
   var context_preview = canvas_preview.getContext('2d');

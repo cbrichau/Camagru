@@ -1,11 +1,11 @@
 <?php
+/* ******************************************************************* *\
+    Sets the file & html base paths,
+    and the connection to the database.
+\* ******************************************************************* */
+
 class Config
 {
-  /* ******************************************************************* *\
-      Sets the file & html base paths,
-      and the connection to the database.
-  \* ******************************************************************* */
-
   const ROOT = 'http://localhost:8081/repcamagru/';
 
   const MODELS_PATH = 'app/models/';

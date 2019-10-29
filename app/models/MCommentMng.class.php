@@ -1,4 +1,10 @@
 <?php
+/* ******************************************************** *\
+    Manages Comment objects.
+    - SELECT, ADD, COUNT: database manipulations.
+    - CHECK_COMMENT: checker for posted comments.
+\* ******************************************************** */
+
 class MCommentMng extends M_Manager
 {
   /* *********************************************************** *\

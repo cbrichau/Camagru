@@ -1,4 +1,8 @@
 <?php
+/* ******************************************************************* *\
+    Sets variable elements of the template (V_Header.php).
+\* ******************************************************************* */
+
 class Output extends Config
 {
   private $_head_title; // <head><title> field.

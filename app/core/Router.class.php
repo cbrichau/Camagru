@@ -1,4 +1,9 @@
 <?php
+/* ******************************************************************* *\
+    Defines and includes all necessary MVC files
+    base on url parameters and form values.
+\* ******************************************************************* */
+
 class Router extends Config
 {
   public static $page = array('name' => 'home',

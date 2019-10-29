@@ -1,11 +1,15 @@
 <?php
+/* ************************************************************* *\
+    Base for all manager models, to provide the paths and
+    DB connection from Config, and validity check functions.
+\* ************************************************************* */
+
 class M_Manager extends Config
 {
   protected $_db;
 
   /* *********************************************************** *\
-      INITILISATION:
-      Gets the connection to the database.
+      INITILISATION: Gets the connection to the database.
   \* *********************************************************** */
 
   public function __construct()
@@ -14,8 +18,7 @@ class M_Manager extends Config
   }
 
   /* *********************************************************** *\
-      IS_VALID_xx_FORMAT:
-      Checks a given input is of the expected format.
+      IS_VALID_xx_FORMAT: Checks input is of the expected format.
   \* *********************************************************** */
 
   protected function is_valid_string_format($input)

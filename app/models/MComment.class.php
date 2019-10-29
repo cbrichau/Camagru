@@ -1,4 +1,14 @@
 <?php
+/* ******************************************************** *\
+    Defines a Comment as:
+    - id_comment: unique identifier.
+    - id_image: id of the image the comment relates to.
+    - id_user: id of the author.
+    - username: username of the author.
+    - publication_date: when the comment was posted.
+    - comment: content of the comment.
+\* ******************************************************** */
+
 class MComment
 {
   private $_id_comment;
@@ -55,7 +65,7 @@ class MComment
 
   public function set_publication_date($arg)
   {
-    $this->_publication_date = $arg; //check input
+    $this->_publication_date = $arg;
   }
 
   public function set_comment($arg)
@@ -87,7 +97,7 @@ class MComment
   {
     return $this->_username;
   }
-  
+
   public function get_publication_date()
   {
     return $this->_publication_date;
