@@ -1,11 +1,10 @@
 <?php
 class Output extends Config
 {
-  private $_head_title; // = <head><title> field.
-  private $_page_name; // = <main id="name"> for page-specific css.
-
-  //private $_login_username;
-  //private $_login_error_msg;
+  private $_head_title; // <head><title> field.
+  private $_page_name; // <main id="name"> for page-specific css.
+  private $_login_username; // Prefills form on login error.
+  private $_login_error_msg; // Header message on login error.
 
   /* **************************** *\
     SETTERS
@@ -21,7 +20,7 @@ class Output extends Config
   {
     $this->_page_name = $name;
   }
-  /*
+
   public function set_login_username($username)
   {
     if (is_string($username))
@@ -46,8 +45,6 @@ class Output extends Config
   {
     return $this->_page_name;
   }
-/*
-
 
   public function get_login_username()
   {
@@ -57,5 +54,5 @@ class Output extends Config
   public function get_login_error_msg()
   {
     return $this->_login_error_msg;
-  }*/
+  }
 }

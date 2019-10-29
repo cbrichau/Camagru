@@ -16,10 +16,7 @@ class MEmailMng extends M_Manager
 
 		$content = wordwrap($message, 70);
 
-		if (mail($to, $subject, $content, $headers))
-		  echo "Message accepted";
-		else
-		  echo "Error: Message not accepted";
+		mail($to, $subject, $content, $headers);
 	}
 
 	/* *********************************************************** *\
@@ -32,7 +29,16 @@ class MEmailMng extends M_Manager
 		$to = $user->get_email();
 		$code = $user->get_id_user().'-'.$user->get_email_confirmed();
 		$subject = 'Validate your registration';
-		$message = 'Please click on the link to validate your registration: '.Config::ROOT.'register?confirm='.$code;
+		$message = 'Please click on the link to validate your registration: '.Config::ROOT.'index.php?cat=register&confirm='.$code;
+		$this->send_email($to, $subject, $message);
+	}
+
+	public function send_reset_confirmation(MUser $user, $password_confirmation_code)
+	{
+		$to = $user->get_email();
+		$code = $user->get_id_user().'-'.$password_confirmation_code;
+		$subject = 'Validate your new password';
+		$message = 'Please click on the link to validate your new password: '.Config::ROOT.'index.php?cat=reset&confirm='.$code;
 		$this->send_email($to, $subject, $message);
 	}
 

@@ -19,6 +19,14 @@ $create_users_table = 'CREATE TABLE IF NOT EXISTS users
                         PRIMARY KEY (id_user)
                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;';
 
+$create_pw_resets_table = 'CREATE TABLE IF NOT EXISTS password_resets
+                           (id_user int(11) NOT NULL AUTO_INCREMENT,
+                            password varchar(255) NOT NULL,
+                            password_confirmation_code varchar(255) NOT NULL,
+                            PRIMARY KEY (id_user),
+                            CONSTRAINT FK_pw_resets_id_user FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE ON UPDATE CASCADE
+                           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;';
+
 $create_likes_table = 'CREATE TABLE IF NOT EXISTS likes
                        (id_image varchar(15) NOT NULL,
                         nb_likes int(11) NOT NULL,
@@ -41,6 +49,7 @@ $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $DB->exec($create_db);
 $DB->exec($select_db);
 $DB->exec($create_users_table);
+$DB->exec($create_pw_resets_table);
 $DB->exec($create_likes_table);
 $DB->exec($create_comments_table);
 echo '<p>Installation complete.'

@@ -220,12 +220,13 @@ main#home #pagination
   text-align: center;
 }
 
-/* ************************** *\
-    Page: register, account
-\* ************************** */
+/* ********************************* *\
+    Page: register, account, reset
+\* ********************************* */
 
 main#register form,
-main#account form
+main#account form,
+main#reset form
 {
   width: 95%;
   margin: 1em auto;
@@ -249,7 +250,10 @@ main#register form input[type=submit],
 main#account form input[type=text],
 main#account form input[type=email],
 main#account form input[type=password],
-main#account form input[type=submit]
+main#account form input[type=submit],
+main#reset form input[type=email],
+main#reset form input[type=password],
+main#reset form input[type=submit]
 {
   display: block;
   width: 100%;
@@ -265,7 +269,8 @@ main#account form input[type=checkbox]
 }
 
 main#register form input[type=submit],
-main#account form input[type=submit]
+main#account form input[type=submit],
+main#reset form input[type=submit]
 {
   background-color: var(--colour-bg-dark);
   color: white;
@@ -320,7 +325,7 @@ section#right
   margin: 1em;
 }
 
-#video, #canvas_photo
+#video, #photo, #canvas_photo
 {
   display: none;
 }

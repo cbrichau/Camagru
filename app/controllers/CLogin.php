@@ -11,8 +11,6 @@ if ($_SESSION['is_logged'] === TRUE)
 // Processes the login form.
 if (isset($_POST['login']))
 {
-  //$output->set_login_username($_POST['username']);
-
   // Checks the input is valid, or returns an error message.
   $userMng = new MUserMng();
   $error_msg = $userMng->check_login_username($_POST);
@@ -26,8 +24,11 @@ if (isset($_POST['login']))
     $userMng->login($_POST['username']);
 
   // If there's an error, ..........
-  //else
-    //$output->set_login_error_msg();
+  else
+  {
+    $output->set_login_username($_POST['username']);
+    $output->set_login_error_msg();
+  }
 }
 
 // Redirects to current page.

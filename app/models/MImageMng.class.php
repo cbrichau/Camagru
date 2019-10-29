@@ -28,10 +28,17 @@ class MImageMng extends M_Manager
 
   public function delete_montage($id_image)
   {
-    $img_path = Config::IMAGES_PATH.'montages/'.$id_image.'.png';
+    $img_path = Config::IMAGES_PATH.'uploads/'.$id_user.'-*.png';
     if (file_exists($img_path))
       unlink($img_path);
     header('Location: '.Config::ROOT.'index.php?cat=montage');
+  }
+
+  public function delete_uploaded_image($id_user)
+  {
+    $img_paths = glob(Config::IMAGES_PATH.'uploads/*-'.$id_user.'.png');
+    foreach ($img_paths as $img_path)
+      unlink($img_path);
   }
 
   /* *********************************************************** *\
@@ -112,7 +119,10 @@ class MImageMng extends M_Manager
   {
     list($filter_real_width, $filter_real_height) = getimagesize($filter);
 
-    $photo = imagecreatefromstring(base64_decode(str_replace(' ', '+', str_replace('data:image/png;base64,', '', $photo))));
+    if (strpos($photo, 'data:image/png;base64') !== false)
+      $photo = imagecreatefromstring(base64_decode(str_replace(' ', '+', str_replace('data:image/png;base64,', '', $photo))));
+    else
+      $photo = imagecreatefrompng($photo);
     $filter = imagecreatefrompng($filter);
 
     imagecopyresized($photo, $filter, 0, 0, 0, 0, $width, $height, $filter_real_width, $filter_real_height);
