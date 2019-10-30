@@ -54,7 +54,7 @@ class MEmailMng extends M_Manager
 		$userMng = new MUserMng();
 		$user = $userMng->select_user_by('id_user', $id_user);
 
-		if ($user->get_notifications_on() == 1)
+		if ($user->get_notifications_on() == TRUE)
 		{
 			$to = $user->get_email();
 			$subject = 'You have a new comment';

@@ -45,7 +45,6 @@ class MCommentMng extends M_Manager
 
     $emailMng = new MEmailMng();
     $emailMng->notify_new_comment($comment->get_id_image());
-    return $this->_db->lastInsertId();
   }
 
   public function delete_comments($id_image)

@@ -193,6 +193,12 @@ class MUserMng extends M_Manager
         $post['pass'] != $post['passcheck'])
       return 'Please enter matching passwords.';
 
+    if (strlen($post['pass']) < 6)
+      return 'Please use a password at least 6-character long.';
+
+    if (preg_match('/^[A-Za-z0-9]*$/', $post['pass']))
+      return 'Please use at least one special character in your password.';
+
     return FALSE;
   }
 

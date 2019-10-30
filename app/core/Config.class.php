@@ -6,7 +6,7 @@
 
 class Config
 {
-  const ROOT = 'http://localhost:8081/repcamagru/'; // Also hardcoded in create_montage_photo.js
+  const ROOT = 'http://localhost:8081/repcamagru/'; // Also hardcoded in index.php and create_montage_photo.js
 
   const MODELS_PATH = 'app/models/';
   const CONTROLLERS_PATH = 'app/controllers/';

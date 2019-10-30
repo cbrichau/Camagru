@@ -38,7 +38,7 @@ if ($_SESSION['is_logged'] === TRUE)
 
     // Executes the montage if there's no error in the input.
 		if ($montage_error === FALSE)
-			$imageMng->create_montage($id_user, $_POST['photo'], $_POST['filter'], $_POST['width'], $_POST['height']);
+      $imageMng->create_montage($id_user, $_POST['photo'], $_POST['filter'], $_POST['width'], $_POST['height']);
 	}
 
   // Gets the filter pictures and the user's previous montages as arrays of file paths.
