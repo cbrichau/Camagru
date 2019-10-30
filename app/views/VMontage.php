@@ -21,7 +21,7 @@
     if (isset($uploaded_image))
     {
       $js_file = 'create_montage_photo.js';
-      echo '<img src="'.$uploaded_image.'" id="photo">';
+      echo '<img id="photo" src="'.$uploaded_image.'">';
     }
     else
     {
@@ -29,8 +29,8 @@
       echo '<video id="video" autoplay></video>';
     }
     ?>
-    <canvas id="canvas_preview"></canvas>
-    <canvas id="canvas_photo"></canvas>
+    <canvas id="display_canvas"></canvas>
+    <canvas id="real_canvas"></canvas>
     <form id="form" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="photo">
       <input type="hidden" name="filter">

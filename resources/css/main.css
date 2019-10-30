@@ -325,7 +325,7 @@ section#right
   margin: 1em;
 }
 
-#video, #photo, #canvas_photo
+#photo, #video, #real_canvas
 {
   display: none;
 }
