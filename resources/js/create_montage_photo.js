@@ -3,8 +3,8 @@
 {
   // Defining HTML elements
   var photo = document.getElementById('photo');
-  var width = document.getElementById('left').clientWidth * 0.9;
-  var height = photo.height / (photo.width/width);
+  var width = 800;
+  var height = photo.height / (photo.width / width);
 
   var canvas_preview = document.getElementById('canvas_preview');
   var context_preview = canvas_preview.getContext('2d');
@@ -31,7 +31,7 @@
   // then initiates the preview.
   canvas_preview.setAttribute('width', width);
   canvas_preview.setAttribute('height', height);
-  form.elements['photo'].value = photo.src;
+  form.elements['photo'].value = photo.src.replace('http://localhost:8081/repcamagru/', '');
   form.elements['width'].value = width;
   form.elements['height'].value = height;
   draw_preview(photo, context_preview, width, height);

@@ -58,7 +58,7 @@ if (isset($_POST['modify']))
       $email_error_alert = '<div class="alert-box error"><span>error:</span> '.$error_msg['email'].'</div>';
 
     if ($error_msg['username'] != FALSE)
-      $email_username_alert = '<div class="alert-box error"><span>error:</span> '.$error_msg['username'].'</div>';
+      $username_error_alert = '<div class="alert-box error"><span>error:</span> '.$error_msg['username'].'</div>';
 
     if ($error_msg['password'] != FALSE)
       $pass_error_alert = '<div class="alert-box error"><span>error:</span> '.$error_msg['password'].'</div>';

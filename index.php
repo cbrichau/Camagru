@@ -32,16 +32,13 @@ require_once('app/core/Output.class.php');
 $output = new Output();
 
 // Error file manages any errors to be displayed
-/*
 if (isset($_SESSION['error']))
-{
   if (isset($_SESSION['error']['login']))
   {
-    $output->set_login_error();
+    $output->set_login_username($_SESSION['error']['login']);
+    $output->set_login_error_msg();
     unset($_SESSION['error']['login']);
   }
-}
-*/
 
 // Router class takes the GET and POST arrays,
 // and includes the expected models and controller.

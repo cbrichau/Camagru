@@ -58,7 +58,7 @@ class MEmailMng extends M_Manager
 		{
 			$to = $user->get_email();
 			$subject = 'You have a new comment';
-			$message = 'You have a new comment on your image: '.Config::ROOT.'montage/'.$id_image;
+			$message = 'You have a new comment on your image: '.Config::ROOT.'index.php?cat=montage&id_image='.$id_image;
 			$this->send_email($to, $subject, $message);
 		}
 	}

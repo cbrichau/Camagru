@@ -28,6 +28,7 @@ if (isset($_GET['confirm']))
     // Updates database entry to reflect the modifed password.
     // Remove the validation from the database.
     // Then logs the user and redirects to home.
+    $user->set_email_confirmed(TRUE);
     $userMng->modify_user($user);
     $userMng->delete_password_reset($user);
     $userMng->login($user->get_username());
@@ -56,6 +57,8 @@ if (isset($_POST['reset']))
     // Saves the pending change in the database.
     $password_confirmation_code = md5(rand(0,1000));
     $userMng->reset_password($user, $password_confirmation_code);
+    $user->set_email_confirmed(FALSE);
+    $userMng->modify_user($user);
     $validation_alert = '<div class="alert-box success"><span>success:</span> An email has been sent to you with a validation link.</div>';
   }
   // If there's one or more errors, sets the corresponding alert(s).

@@ -37,17 +37,17 @@ class MImageMng extends M_Manager
 
   public function delete_montage($id_image)
   {
-    $img_path = Config::IMAGES_PATH.'uploads/'.$id_user.'-*.png';
+    // Delete file
+    $img_path = Config::IMAGES_PATH.'montages/'.$id_image.'.png';
     if (file_exists($img_path))
       unlink($img_path);
-    header('Location: '.Config::ROOT.'index.php?cat=montage');
-  }
 
-  public function delete_uploaded_image($id_user)
-  {
-    $img_paths = glob(Config::IMAGES_PATH.'uploads/*-'.$id_user.'.png');
-    foreach ($img_paths as $img_path)
-      unlink($img_path);
+    // Delete likes and comments
+    $this->delete_likes($id_image);
+    $commentMng = new MCommentMng();
+    $commentMng->delete_comments($id_image);
+
+    header('Location: '.Config::ROOT.'index.php?cat=montage');
   }
 
   /* *********************************************************** *\
@@ -107,6 +107,15 @@ class MImageMng extends M_Manager
     $query->execute();
   }
 
+  public function delete_likes($id_image)
+  {
+    $sql = 'DELETE FROM likes
+            WHERE id_image = :id_image';
+    $query = $this->_db->prepare($sql);
+    $query->bindValue(':id_image', $id_image, PDO::PARAM_STR);
+    $query->execute();
+  }
+
   /* *********************************************************** *\
       CREATE_MONTAGE
       Creates the montage from the photo and filter.
@@ -114,21 +123,30 @@ class MImageMng extends M_Manager
 
   public function create_montage($id_user, $photo, $filter, $width, $height)
   {
-    list($filter_real_width, $filter_real_height) = getimagesize($filter);
-
+    // Create photo_php from video stream.
     if (strpos($photo, 'data:image/png;base64') !== false)
-      $photo = imagecreatefromstring(base64_decode(str_replace(' ', '+', str_replace('data:image/png;base64,', '', $photo))));
+      $photo_php = imagecreatefromstring(base64_decode(str_replace(' ', '+', str_replace('data:image/png;base64,', '', $photo))));
+    // Create photo_php from uploaded image.
     else
-      $photo = imagecreatefrompng($photo);
-    $filter = imagecreatefrompng($filter);
+    {
+      $photo_php = imagecreatetruecolor($width, $height);
+      $photo_php_original = imagecreatefrompng($photo);
+      list($photo_real_width, $photo_real_height) = getimagesize($photo);
+      imagecopyresized($photo_php, $photo_php_original, 0, 0, 0, 0, $width, $height, $photo_real_width, $photo_real_height);
+      imagedestroy($photo_php_original);
+      unlink($photo);
+    }
 
-    imagecopyresized($photo, $filter, 0, 0, 0, 0, $width, $height, $filter_real_width, $filter_real_height);
+    // Merge photo_php with the filter.
+    $filter_php = imagecreatefrompng($filter);
+    list($filter_real_width, $filter_real_height) = getimagesize($filter);
+    imagecopyresized($photo_php, $filter_php, 0, 0, 0, 0, $width, $height, $filter_real_width, $filter_real_height);
 
+    // Save montage and destroy temp php images.
     $id_image = time().'-'.$id_user;
-    imagepng($photo, Config::IMAGES_PATH.'montages/'.$id_image.'.png');
-
-    imagedestroy($photo);
-    imagedestroy($filter);
+    imagepng($photo_php, Config::IMAGES_PATH.'montages/'.$id_image.'.png');
+    imagedestroy($photo_php);
+    imagedestroy($filter_php);
   }
 
   /* *********************************************************** *\

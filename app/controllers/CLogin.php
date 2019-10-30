@@ -22,10 +22,7 @@ if (isset($_POST['login']))
   if ($error_msg === FALSE)
     $userMng->login($_POST['username']);
   else
-  {
-    $output->set_login_username($_POST['username']);
-    $output->set_login_error_msg();
-  }
+    $_SESSION['error']['login'] = $_POST['username'];
 }
 
 // Redirects to current page.

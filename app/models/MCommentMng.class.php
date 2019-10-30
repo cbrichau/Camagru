@@ -8,7 +8,7 @@
 class MCommentMng extends M_Manager
 {
   /* *********************************************************** *\
-      SELECT, ADD, COUNT
+      SELECT, ADD, DELETE, COUNT
   \* *********************************************************** */
 
   public function select_comments_for_image($id_image)
@@ -46,6 +46,15 @@ class MCommentMng extends M_Manager
     $emailMng = new MEmailMng();
     $emailMng->notify_new_comment($comment->get_id_image());
     return $this->_db->lastInsertId();
+  }
+
+  public function delete_comments($id_image)
+  {
+    $sql = 'DELETE FROM comments
+            WHERE id_image = :id_image';
+    $query = $this->_db->prepare($sql);
+    $query->bindValue(':id_image', $id_image, PDO::PARAM_STR);
+    $query->execute();
   }
 
   public function count_comments_per_image()

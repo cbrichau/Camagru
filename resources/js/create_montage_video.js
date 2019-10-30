@@ -3,14 +3,11 @@
 {
   // Defining HTML elements
   var video = document.getElementById('video');
-  var width = document.getElementById('left').clientWidth * 0.9;  // Scales the video width to this.
+  var width = 800;  // Scales the video width to this.
   var height = 0; // Computed later based on the video stream.
 
   var canvas_preview = document.getElementById('canvas_preview');
   var context_preview = canvas_preview.getContext('2d');
-
-  var canvas_photo = document.getElementById('canvas_photo');
-  var context_photo = canvas_photo.getContext('2d');
 
   var filters = document.querySelectorAll('#filters img');
   var active_filter = new Image();
@@ -52,10 +49,6 @@
   }
 
   /* --------------- events --------------- */
-  window.onresize = function(event)
-  {
-    width = document.getElementById('left').clientWidth * 0.9;
-  }
 
   // On 'play', gets the height of the stream and defines the dimensions
   // of the canvases accordingly, then initiates the preview.
@@ -65,15 +58,11 @@
     {
       height = video.videoHeight / (video.videoWidth/width);
       if (isNaN(height))
-      {
         height = width / (4/3);
-      }
       video.setAttribute('width', width);
       video.setAttribute('height', height);
       canvas_preview.setAttribute('width', width);
       canvas_preview.setAttribute('height', height);
-      canvas_photo.setAttribute('width', width);
-      canvas_photo.setAttribute('height', height);
       form.elements['width'].value = width;
       form.elements['height'].value = height;
       draw_preview(this, context_preview, width, height);
@@ -104,8 +93,8 @@
     function(event)
     {
       event.preventDefault();
-      context_photo.drawImage(video, 0, 0, width, height);
-      form.elements['photo'].value = canvas_photo.toDataURL('image/png');
+      context_preview.drawImage(video, 0, 0, width, height);
+      form.elements['photo'].value = canvas_preview.toDataURL('image/png');
       form.submit();
     },
     false
