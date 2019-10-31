@@ -6,7 +6,7 @@
 
 class Config
 {
-  const ROOT = 'http://localhost:8081/repcamagru/'; // Also hardcoded in index.php and create_montage_photo.js
+  const ROOT = 'http://localhost:8081/repcamagru/'; // Also hardcoded in setup.php and create_montage_photo.js
 
   const MODELS_PATH = 'app/models/';
   const CONTROLLERS_PATH = 'app/controllers/';
@@ -24,15 +24,24 @@ class Config
   private static function connect_db()
   {
     require('config/database.php');
-		self::$_db = new PDO($DB_DSN.';dbname='.$DB_NAME, $DB_USER, $DB_PASSWORD); // Connect
-    self::$_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Error mode = throw PDOException.
-		self::$_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); //Defaut fetch = associative array.
+    try
+    {
+      self::$_db = new PDO($DB_DSN.';dbname='.$DB_NAME, $DB_USER, $DB_PASSWORD); // Connect
+      self::$_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Error mode = throw PDOException.
+		  self::$_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); //Defaut fetch = associative array.
+      return TRUE;
+    }
+    catch (PDOException $e) { return FALSE; }
   }
 
   public static function get_db()
   {
     if (self::$_db == NULL)
-      self::connect_db();
+    {
+      $connectable = self::connect_db();
+      if ($connectable === FALSE)
+        return FALSE;
+    }
     return (self::$_db);
   }
 }

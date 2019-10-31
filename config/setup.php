@@ -1,12 +1,12 @@
 <?php
-session_start();
-
 //Debugging
 /*
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 */
+session_start();
+session_unset();
 
 require_once('database.php');
 
@@ -57,7 +57,6 @@ $DB->exec($create_users_table);
 $DB->exec($create_pw_resets_table);
 $DB->exec($create_likes_table);
 $DB->exec($create_comments_table);
-
-$_SESSION['setup'] = TRUE;
-echo '<p>Installation complete.'
+$_SESSION['is_setup'] = TRUE;
+header('Location: http://localhost:8081/repcamagru/');
 ?>

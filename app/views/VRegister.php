@@ -3,10 +3,10 @@
   <h1><?php echo $output->get_head_title(); ?></h1>
 
   <?php echo $email_error_alert; ?>
-  <input type="email" name="email" placeholder="email" value="<?php echo $email_posted; ?>">
+  <input type="email" name="email" placeholder="email" value="<?php echo htmlspecialchars($email_posted); ?>">
 
 	<?php echo $username_error_alert; ?>
-  <input type="text" name="username" placeholder="username" value="<?php echo $username_posted; ?>">
+  <input type="text" name="username" placeholder="username" value="<?php echo htmlspecialchars($username_posted); ?>">
 
 	<?php echo $pass_error_alert; ?>
   <input type="password" name="pass" placeholder="password" value="">

@@ -19,7 +19,7 @@ else
 		echo $error_alert;
 		?>
 		<form method="POST">
-	    <textarea name="comment" placeholder="Write a comment"><?php echo $comment_posted; ?></textarea>
+	    <textarea name="comment" placeholder="Write a comment"><?php echo htmlspecialchars($comment_posted); ?></textarea>
 	    <input type="hidden" name="id_image" value="<?php echo Router::$page['id_image']; ?>">
 	    <input type="hidden" name="id_user" value="<?php echo (int)$_SESSION['id_user']; ?>">
 	    <input type="submit" name="post_comment" value="Post comment">

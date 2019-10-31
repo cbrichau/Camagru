@@ -20,17 +20,26 @@ print_r($_SESSION);
 echo '</pre>';
 */
 
-if (!isset($_SESSION['setup']))
-  echo 'You must <a href="http://localhost:8081/repcamagru/config/setup.php">setup the database</a> first.';
+if (!isset($_SESSION['is_logged']))
+  $_SESSION['is_logged'] = FALSE;
+
+// Config class defines all paths as constants
+// and establishes the connection to the database.
+require_once('app/core/Config.class.php');
+
+if (!isset($_SESSION['is_setup']))
+{
+  $db_exists = Config::get_db();
+  if ($db_exists === FALSE)
+     echo 'You must <a href="'.Config::ROOT.'config/setup.php">setup the database</a> first.';
+  else
+  {
+    $_SESSION['is_setup'] = TRUE;
+    header('Location: '.Config::ROOT.'');
+  }
+}
 else
 {
-  if (!isset($_SESSION['is_logged']))
-    $_SESSION['is_logged'] = FALSE;
-
-  // Config class defines all paths as constants
-  // and establishes the connection to the database.
-  require_once('app/core/Config.class.php');
-
   // Output class manages all variables for the
   // template header and footer.
   require_once('app/core/Output.class.php');

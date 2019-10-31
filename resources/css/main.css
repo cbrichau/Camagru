@@ -325,6 +325,11 @@ section#right
   margin: 1em;
 }
 
+#filters img:hover
+{
+  cursor: pointer;
+}
+
 #photo, #video, #real_canvas
 {
   display: none;

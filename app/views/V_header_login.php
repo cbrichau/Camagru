@@ -13,7 +13,7 @@ else
 {
   ?>
   <form method="POST">
-    <input type="text" name="username" placeholder="username" value="<?php echo $output->get_login_username(); ?>">
+    <input type="text" name="username" placeholder="username" value="<?php echo htmlspecialchars($output->get_login_username()); ?>">
     <input type="password" name="pass" placeholder="password" value="">
     <input type="submit" name="login" value="Login">
     <p>
