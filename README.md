@@ -6,9 +6,12 @@ This website allows logged users to take selfies with superposable decorative st
 
 This was a 19 Coding School web project. It was created using standard PHP/PDO, HTML/CSS and JavaScript (no frameworks or libraries allowed) over 4 weeks.
 
-Final grade: 109% (points for implementing bonuses).
+**Final grade: 109%** (points for implementing bonuses).
 
 Peer evaluations:
-1) 116% "Excellent projet, excellentes explications, bonne chance pour matcha !"
-2) 105% "Bon a voire la suite."
-3) 108% "Bon projet ! Code très propre ! Bravo !"
+
+> 116% _"Excellent projet, excellentes explications, bonne chance pour matcha !"_
+
+> 105% _"Bon a voire la suite."_
+
+> 108% _"Bon projet ! Code très propre ! Bravo !"_
